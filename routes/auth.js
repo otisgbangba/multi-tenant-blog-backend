@@ -46,4 +46,19 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
+        const tenant = await Tenant.findByPk(user.tenantId);
+
         const token = jwt.sign(
+            { userId: user.id, tenantId: user.tenantId },
+            process.env.JWT_SECRET,
+            { expiresIn: '7d' }
+        );
+
+        res.status(200).json({ token, user, tenant });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Login failed' });
+    }
+});
+
+module.exports = router;
