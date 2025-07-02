@@ -2,6 +2,7 @@
 const express = require('express');
 const { Blog } = require('../models');
 const auth = require('../middleware/auth');
+const blogController = require('../controllers/blogController');
 const tenantResolver = require('../middleware/tenantResolver');
 
 const router = express.Router();
